@@ -13,7 +13,6 @@ import pandas as pd
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
@@ -64,10 +63,8 @@ def tokenize(text):
     words = word_tokenize(text)
     # Stopword Removal
     words = [w for w in words if w not in stopwords.words("english")]
-    # Stemming
-    stemmed = [PorterStemmer().stem(w) for w in words]
     # Lemmatization
-    lemmed = [WordNetLemmatizer().lemmatize(w) for w in stemmed]
+    lemmed = [WordNetLemmatizer().lemmatize(w) for w in words]
     lemmed = [WordNetLemmatizer().lemmatize(w, pos='v') for w in lemmed]
     # Return the preprocessed tokens
     return lemmed 

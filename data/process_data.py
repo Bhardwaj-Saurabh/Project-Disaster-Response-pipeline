@@ -55,6 +55,7 @@ def clean_data(dataframe):
     dataframe.drop('categories', axis=1, inplace=True)
     # Concatenate the original dataframe with the new `categories` dataframe
     dataframe = pd.concat([dataframe, categories], axis=1)
+    dataframe = dataframe[dataframe['related']!=2]
     # Remove duplicate rows
     dataframe = dataframe.drop_duplicates()
     # Return dataframe
@@ -73,7 +74,7 @@ def save_data(dataframe, database_filename):
     # Create an SQLAlchemy engine to connect to the SQLite database
     engine = create_engine(f'sqlite:///{database_filename}')
     # Save the DataFrame
-    dataframe.to_sql('InsertTableName', engine, index=False)
+    dataframe.to_sql('InsertTableName', engine, index=False, if_exists='replace')
 
 
 def main():
